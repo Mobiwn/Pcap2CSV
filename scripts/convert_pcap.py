@@ -11,8 +11,7 @@ def main():
         print("Usage: python convert_pcap.py <pcap_file> <csv_file>")
         sys.exit(1)
     
-    pcap_file = sys.argv[1]
-    csv_file = sys.argv[2]
+    pcap_file, csv_file = sys.argv[1], sys.argv[2]
     
     converter = PcapToCsvConverter(pcap_file, csv_file)
     converter.convert()

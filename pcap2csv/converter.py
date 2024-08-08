@@ -23,11 +23,10 @@ class PcapToCsvConverter:
                         'length': len(pkt)
                     })
                 else:
-                    # Handle non-IP packets or log them if needed
                     writer.writerow({
                         'timestamp': pkt.time,
                         'src': 'N/A',
                         'dst': 'N/A',
-                        'proto': pkt[0].name,
+                        'proto': pkt[0].name if hasattr(pkt[0], 'name') else 'N/A',
                         'length': len(pkt)
                     })

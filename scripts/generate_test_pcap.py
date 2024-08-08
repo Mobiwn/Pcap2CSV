@@ -9,15 +9,14 @@ conf.verb = 0  # Disable Scapy's verbosity
 def generate_test_pcap(output_file, num_packets=1000):
     packets = []
     for _ in range(num_packets):
-        src_ip = RandIP()
-        dst_ip = RandIP()
-        sport = RandShort()
-        dport = RandShort()
+        src_ip, dst_ip = RandIP(), RandIP()
+        sport, dport = RandShort(), RandShort()
         
+        packet = Ether() / IP(src=src_ip, dst=dst_ip)
         if random.choice([True, False]):
-            packet = Ether() / IP(src=src_ip, dst=dst_ip) / TCP(sport=sport, dport=dport)
+            packet /= TCP(sport=sport, dport=dport)
         else:
-            packet = Ether() / IP(src=src_ip, dst=dst_ip) / UDP(sport=sport, dport=dport)
+            packet /= UDP(sport=sport, dport=dport)
 
         packets.append(packet)
     
