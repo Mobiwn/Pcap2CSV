@@ -1,5 +1,5 @@
 import csv
-from scapy.all import rdpcap
+from scapy.all import rdpcap, IP
 
 class PcapToCsvConverter:
     def __init__(self, pcap_file, csv_file):
@@ -14,10 +14,20 @@ class PcapToCsvConverter:
             writer.writeheader()
 
             for pkt in packets:
-                writer.writerow({
-                    'timestamp': pkt.time,
-                    'src': pkt[0][1].src if len(pkt) > 1 else 'N/A',
-                    'dst': pkt[0][1].dst if len(pkt) > 1 else 'N/A',
-                    'proto': pkt[0].name,
-                    'length': len(pkt)
-                })
+                if IP in pkt:
+                    writer.writerow({
+                        'timestamp': pkt.time,
+                        'src': pkt[IP].src,
+                        'dst': pkt[IP].dst,
+                        'proto': pkt[IP].proto,
+                        'length': len(pkt)
+                    })
+                else:
+                    # Handle non-IP packets or log them if needed
+                    writer.writerow({
+                        'timestamp': pkt.time,
+                        'src': 'N/A',
+                        'dst': 'N/A',
+                        'proto': pkt[0].name,
+                        'length': len(pkt)
+                    })
