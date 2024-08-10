@@ -76,7 +76,9 @@ Pcap2CSV/
 │   └── generate_test_pcap.py
 └── tests/
     ├── __init__.py
-    └── data/
+    ├── __pycache__/
+    ├── data/
+    └── test_converter.py
 ```
 
 ## Running Tests
